@@ -1,20 +1,14 @@
-name: Deploy to Development Environment
+name: Build & Deploy Pipeline for Dev
 on:
   push:
     branches:
-       - master
-  pull_request:
-    branches:
-       - PrepRod
-env:
-  
-  AZURE_DEVWEBAPP_NAME: GitAc-Dev
-  AZURE_PREPRODWEBAPP_NAME: GitAc-PreProd
-  AZURE_WEBAPP_PACKAGE_PATH: 'C:\actions-runner\_work\GitNewTest2\GitNewTest2\GitNewTest2\bin'
-  WEBSITE_NAME: ${{secrets.WEBSITE_NAME}}
-  APP_POOL_NAME: ${{secrets.APP_POOL_NAME}}
-  WEBAPP_MSDeploy_USERNAME: ${{secrets.IIS_USERNAME}}
-  WEBAPP_MSDeploy_PASSWORD: ${{secrets.IIS_PASSWORD}}
+       - Dev
+# env:
+#   AZURE_WEBAPP_PACKAGE_PATH: 'C:\actions-runner3\_work\GitNewTest2\GitNewTest2\GitNewTest2\bin'
+#   DEV_WEBSITE_NAME: ${{secrets.WEBSITE_NAME}}
+#   DEV_APP_POOL_NAME: ${{secrets.APP_POOL_NAME}}
+#   DEV_WEBAPP_MSDeploy_USERNAME: ${{secrets.IIS_USERNAME}}
+#   DEV_WEBAPP_MSDeploy_PASSWORD: ${{secrets.IIS_PASSWORD}}
   
 jobs:
   Build:
@@ -33,10 +27,10 @@ jobs:
 
     - name: build
       run: |
-           msbuild GitNewTest2/GitNewTest2.sln /t:Build /p:Configuration=Release /p:Platform="Any CPU" /verbosity:minimal
+           msbuild Git_Final_Test/Git_Final_Test.sln /t:Build /p:Configuration=Release /p:Platform="Any CPU" /verbosity:minimal
     - name: publish
       run: |
-           msbuild GitNewTest2/GitNewTest2.sln /t:Publish /p:Configuration=Release /p:Platform="Any CPU" /p:PublishDir="./artifacts"
+           msbuild Git_Final_Test/Git_Final_Test.sln /t:Publish /p:Configuration=Release /p:Platform="Any CPU" /p:PublishDir="./artifacts"
    
       
       #--output ${{env.AZURE_WEBAPP_PACKAGE_PATH}}
@@ -59,10 +53,10 @@ jobs:
 #       if: github.event_name == 'refs/heads/master'
       runs-on: self-hosted
       env:
-        WEBSITE_NAME: ${{secrets.WEBSITE_NAME}}
-        APP_POOL_NAME: ${{secrets.APP_POOL_NAME}}
-        WEBAPP_MSDeploy_USERNAME: ${{secrets.IIS_USERNAME}}
-        WEBAPP_MSDeploy_PASSWORD: ${{secrets.IIS_PASSWORD}}
+        DEV_WEBSITE_NAME: ${{secrets.DEV_WEBSITE_NAME}}
+        DEV_APP_POOL_NAME: ${{secrets.DEV_APP_POOL_NAME}}
+#         WEBAPP_MSDeploy_USERNAME: ${{secrets.IIS_USERNAME}}
+#         WEBAPP_MSDeploy_PASSWORD: ${{secrets.IIS_PASSWORD}}
       environment:
           name: Dev
       steps:
@@ -72,20 +66,20 @@ jobs:
          # name: myapp
           #path: artifacts/
        - name: copying
-         run:  Copy-Item C:\actions-runner\_work\GitNewTest2\GitNewTest2\* C:\inetpub\wwwroot\ -Recurse -Force
+         run:  Copy-Item C:\actions-runner\_work\Git_Final_Test\Git_Final_Test\* C:\inetpub\wwwroot\ -Recurse -Force
 
-       - name: crete new apppool
+       - name: create new apppool
          run: |
              Import-Module WebAdministration
              New-WebAppPool -Name ${{env.APP_POOL_NAME}}
        - name: create website
          run: |
              Import-Module WebAdministration
-             New-Website -Name ${{env.WEBSITE_NAME}} -PhysicalPath "C:\inetpub\wwwroot\${{env.WEBSITE_NAME}}" -ApplicationPool ${{env.APP_POOL_NAME}}
+             New-Website -Name ${{env.DEV_WEBSITE_NAME}} -PhysicalPath "C:\inetpub\wwwroot\${{env.DEV_WEBSITE_NAME}}" -ApplicationPool ${{env.APP_POOL_NAME}}
        - name: config to use new appool
          run: |
              Import-Module WebAdministration
-             Set-ItemProperty -Path "IIS:\Sites\${{env.WEBSITE_NAME}}" -Name "applicationPool" -Value ${{env.APP_POOL_NAME}}
+             Set-ItemProperty -Path "IIS:\Sites\${{env.DEV_WEBSITE_NAME}}" -Name "applicationPool" -Value ${{env.DEV_APP_POOL_NAME}}
              
   
        - name: Deploy to IIS
