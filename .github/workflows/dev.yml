@@ -23,7 +23,7 @@ jobs:
       uses: NuGet/setup-nuget@v1.0.5
 
     - name: Restore NuGet packages
-      run: nuget restore GitNewTest2/GitNewTest2.sln
+      run: nuget restore Git_Final_Test/Git_Final_Test.sln
 
     - name: build
       run: |
