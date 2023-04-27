@@ -1,6 +1,6 @@
 ﻿import-module webadministration
 
-$DEV_APP_POOL_NAME="DevGit_Final_Test"
+$DEV_APP_POOL_NAME="DevAPP_POOL_NAME"
 
 if(Test-Path IIS:\AppPools\$AppPoolName)
 {
@@ -11,6 +11,6 @@ else
 {
 "AppPool is not present"
 "Creating new AppPool"
-New-WebAppPool "$DEV_APP_POOL_NAME=" -Force
+New-WebAppPool "$DEV_APP_POOL_NAME" -Force
 return $false;
 }
