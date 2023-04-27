@@ -1,0 +1,66 @@
+ name: Build & Deploy Pipeline for Dev
+on:
+  push:
+    branches:
+       - main
+       - PreProd
+  
+jobs:
+  Build:
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.5
+
+    - name: Restore NuGet packages
+      run: nuget restore Git_Final_Test/Git_Final_Test.sln
+
+    - name: build
+      run: |
+           msbuild Git_Final_Test/Git_Final_Test.sln /t:Build /p:Configuration=Release /p:Platform="Any CPU" /verbosity:minimal
+    - name: publish
+      run: |
+           msbuild Git_Final_Test/Git_Final_Test.sln /t:Publish /p:Configuration=Release /p:Platform="Any CPU" /p:PublishDir="./artifacts"
+ DeploytoPreProd:
+      name: PreProd
+      needs: Build
+      if: github.event_name == 'refs/heads/PreProd'
+      runs-on: self-hosted
+      env:
+        DEV_WEBSITE_NAME: ${{secrets.PREPROD_WEBSITE_NAME}}
+        DEV_APP_POOL_NAME: ${{secrets.PREPROD_APP_POOL_NAME}}
+      environment:
+          name: PreProd
+      steps:
+       - name: copying
+         run: |
+              Set-ExecutionPolicy RemoteSigned
+              & C:\actions-runner5\_work\Git_Final_Test\Git_Final_Test\Git_Final_Test\Psscripts\DevTestScript.ps1
+        
+              cd C:\inetpub\wwwroot\
+ 
+              Copy-Item C:\actions-runner5\_work\Git_Final_Test\Git_Final_Test\Git_Final_Test\* C:\inetpub\wwwroot\${{env.PREPROD_WEBSITE_NAME}} -Recurse -Force
+
+       - name: create new apppool
+         run: |
+             & C:\actions-runner5\_work\Git_Final_Test\Git_Final_Test\Git_Final_Test\Psscripts\PreProdTestAppPool.ps1
+       - name: create website
+         run: |
+              & C:\actions-runner5\_work\Git_Final_Test\Git_Final_Test\Git_Final_Test\Psscripts\PreProdTestWebsite.ps1
+       - name: config to use new appool
+         run: |
+             Import-Module WebAdministration
+             Set-ItemProperty -Path "IIS:\Sites\${{env.PREPROD_WEBSITE_NAME}}" -Name "applicationPool" -Value ${{env.PREPROD_APP_POOL_NAME}}
+             
+  
+       - name: Deploy to IIS
+         run: |
+              # start-process PowerShell -verb runas 
+              iisreset /stop
+             
+              iisreset /start
