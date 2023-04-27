@@ -1,4 +1,4 @@
- name: Build & Deploy Pipeline for Dev
+name: Build & Deploy Pipeline for Dev
 on:
   push:
     branches:
