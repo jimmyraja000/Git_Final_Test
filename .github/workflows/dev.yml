@@ -35,17 +35,23 @@ jobs:
       
       #--output ${{env.AZURE_WEBAPP_PACKAGE_PATH}}
       
-#    - name: Upload artifacts
- #     uses: actions/upload-artifact@v2
-  #    with:
-   #     name: MyProject artifacts
-    #  #  path: bin/Release
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: MyProject artifacts
+        path: bin/Release
       
    # - name: Upload artifacts
     #  uses: actions/upload-artifact@v2
      # with:
       #      name: myapp
        #     path: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}
+       
+    - name: Download artifacts
+      uses: actions/download-artifacts@v2
+      with:
+         name: MyProject artifacts
+         path: C:\actions-runner5\_work
    
   DeployDev:
       name: Dev
