@@ -66,7 +66,7 @@ jobs:
          # name: myapp
           #path: artifacts/
        - name: copying
-         run:  Copy-Item C:\actions-runner\_work\Git_Final_Test\Git_Final_Test\* C:\inetpub\wwwroot\ -Recurse -Force
+         run:  Copy-Item C:\actions-runner3\_work\Git_Final_Test\Git_Final_Test\* C:\inetpub\wwwroot\ -Recurse -Force
 
        - name: create new apppool
          run: |
