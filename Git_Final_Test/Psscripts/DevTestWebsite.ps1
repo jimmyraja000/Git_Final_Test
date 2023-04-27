@@ -9,9 +9,9 @@ return $true;
 }
 else
 {
-"AppPool is not present"
-"Creating new AppPool"
+"Website is not present"
+"Creating new WebSite"
 Import-Module WebAdministration
-New-Website -Name "$DEV_WEBSITE_NAME" -PhysicalPath "C:\inetpub\wwwroot\$DEV_WEBSITE_NAME" -ApplicationPool "$DEV_APP_POOL_NAME"
+New-Website -Name "$DEV_WEBSITE_NAME" -PhysicalPath "C:\inetpub\wwwroot\$DEV_WEBSITE_NAME" -ApplicationPool "$DEV_APP_POOL_NAME" -Force
 return $false;
 }
