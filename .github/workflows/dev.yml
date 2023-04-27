@@ -66,7 +66,8 @@ jobs:
          # name: myapp
           #path: artifacts/
        - name: copying
-         run: | 
+         run: |
+              dir
               cd C:\inetpub\wwwroot\
               mkdir ${{env.DEV_WEBSITE_NAME}}
               Copy-Item C:\actions-runner5\_work\Git_Final_Test\Git_Final_Test\Git_Final_Test\* C:\inetpub\wwwroot\${{env.DEV_WEBSITE_NAME}} -Recurse -Force
