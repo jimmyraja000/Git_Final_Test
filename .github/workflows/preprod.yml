@@ -1,8 +1,7 @@
 name: Build & Deploy Pipeline for Dev
 on:
   push:
-    branches:
-       - main
+    branches
        - PreProd
   
 jobs:
