@@ -152,6 +152,9 @@
     <Content Include="Content\bootstrap-grid.rtl.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Psscripts\PreProdTestScript.ps1" />
+    <Content Include="Psscripts\PreProdTestAppPool.ps1" />
+    <Content Include="Psscripts\PreProdTestWebsite.ps1" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
