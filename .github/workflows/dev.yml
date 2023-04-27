@@ -1,0 +1,99 @@
+name: Build & Deploy Pipeline for Dev
+on:
+  push:
+    branches:
+       - Dev
+# env:
+#   AZURE_WEBAPP_PACKAGE_PATH: 'C:\actions-runner3\_work\GitNewTest2\GitNewTest2\GitNewTest2\bin'
+#   DEV_WEBSITE_NAME: ${{secrets.WEBSITE_NAME}}
+#   DEV_APP_POOL_NAME: ${{secrets.APP_POOL_NAME}}
+#   DEV_WEBAPP_MSDeploy_USERNAME: ${{secrets.IIS_USERNAME}}
+#   DEV_WEBAPP_MSDeploy_PASSWORD: ${{secrets.IIS_PASSWORD}}
+  
+jobs:
+  Build:
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.5
+
+    - name: Restore NuGet packages
+      run: nuget restore Git_Final_Test/Git_Final_Test.sln
+
+    - name: build
+      run: |
+           msbuild Git_Final_Test/Git_Final_Test.sln /t:Build /p:Configuration=Release /p:Platform="Any CPU" /verbosity:minimal
+    - name: publish
+      run: |
+           msbuild Git_Final_Test/Git_Final_Test.sln /t:Publish /p:Configuration=Release /p:Platform="Any CPU" /p:PublishDir="./artifacts"
+   
+      
+      #--output ${{env.AZURE_WEBAPP_PACKAGE_PATH}}
+      
+#    - name: Upload artifacts
+ #     uses: actions/upload-artifact@v2
+  #    with:
+   #     name: MyProject artifacts
+    #  #  path: bin/Release
+      
+   # - name: Upload artifacts
+    #  uses: actions/upload-artifact@v2
+     # with:
+      #      name: myapp
+       #     path: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}
+   
+  DeployDev:
+      name: Dev
+      needs: Build
+#       if: github.event_name == 'refs/heads/master'
+      runs-on: self-hosted
+      env:
+        DEV_WEBSITE_NAME: ${{secrets.DEV_WEBSITE_NAME}}
+        DEV_APP_POOL_NAME: ${{secrets.DEV_APP_POOL_NAME}}
+#         WEBAPP_MSDeploy_USERNAME: ${{secrets.IIS_USERNAME}}
+#         WEBAPP_MSDeploy_PASSWORD: ${{secrets.IIS_PASSWORD}}
+      environment:
+          name: Dev
+      steps:
+      # - name: Download artifacts
+       #  uses: actions/download-artifact@v2
+        # with:
+         # name: myapp
+          #path: artifacts/
+       - name: copying
+         run: |
+              dir
+              cd C:\inetpub\wwwroot\
+              mkdir ${{env.DEV_WEBSITE_NAME}}
+              Copy-Item C:\actions-runner5\_work\Git_Final_Test\Git_Final_Test\Git_Final_Test\* C:\inetpub\wwwroot\${{env.DEV_WEBSITE_NAME}} -Recurse -Force
+
+       - name: create new apppool
+         run: |
+             Import-Module WebAdministration
+             New-WebAppPool -Name ${{env.DEV_APP_POOL_NAME}}
+       - name: create website
+         run: |
+             Import-Module WebAdministration
+             New-Website -Name ${{env.DEV_WEBSITE_NAME}} -PhysicalPath "C:\inetpub\wwwroot\${{env.DEV_WEBSITE_NAME}}" -ApplicationPool ${{env.DEV_APP_POOL_NAME}}
+       - name: config to use new appool
+         run: |
+             Import-Module WebAdministration
+             Set-ItemProperty -Path "IIS:\Sites\${{env.DEV_WEBSITE_NAME}}" -Name "applicationPool" -Value ${{env.DEV_APP_POOL_NAME}}
+             
+  
+       - name: Deploy to IIS
+         run: |
+              # start-process PowerShell -verb runas 
+              iisreset /stop
+             
+              iisreset /start
+
+          
+  
+  
+          
