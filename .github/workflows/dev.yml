@@ -76,8 +76,7 @@ jobs:
 
        - name: create new apppool
          run: |
-             Import-Module WebAdministration
-             New-WebAppPool -Name ${{env.DEV_APP_POOL_NAME}}
+             & C:\actions-runner5\_work\Git_Final_Test\Git_Final_Test\Git_Final_Test\Psscripts\DevTestAppPool.ps1
        - name: create website
          run: |
              Import-Module WebAdministration
