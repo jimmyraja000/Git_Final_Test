@@ -29,7 +29,7 @@ jobs:
   DeployDev:
       name: Dev
       needs: Build
-      if: github.event_name == 'refs/heads/Dev'
+      #if: github.event_name == 'refs/heads/Dev'
       runs-on: self-hosted
       env:
         DEV_WEBSITE_NAME: ${{secrets.DEV_WEBSITE_NAME}}
@@ -73,7 +73,7 @@ jobs:
   DeploytoPreProd:
       name: PreProd
       needs: Build
-      if: github.event_name == 'refs/heads/PreProd'
+      # if: github.event_name == 'refs/heads/PreProd'
       runs-on: self-hosted
       env:
         DEV_WEBSITE_NAME: ${{secrets.PREPROD_WEBSITE_NAME}}
@@ -111,7 +111,7 @@ jobs:
   DeployProd:
       name: Prod
       needs: DeploytoPreProd
-      if: github.event_name == 'refs/heads/main'
+      # if: github.event_name == 'refs/heads/main'
       runs-on: self-hosted
       env:
         DEV_WEBSITE_NAME: ${{secrets.PROD_WEBSITE_NAME}}
