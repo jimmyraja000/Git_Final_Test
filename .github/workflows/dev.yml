@@ -53,6 +53,7 @@ jobs:
          name: MyProject artifacts
          path: C:\actions-runner5\_work
       env:
+        PERSONAL_ACCESS_TOKEN: ${{secrets.PERSONAL_ACCESS_TOKEN}}
         GIT_TOKEN: ${{secrets.GIT_TOKEN}}
    
   DeployDev:
