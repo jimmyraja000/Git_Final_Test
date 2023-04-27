@@ -47,7 +47,7 @@ jobs:
       #      name: myapp
        #     path: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}
        
-   DeployDev:
+  DeployDev:
       name: Dev
       needs: Build
 #       if: github.event_name == 'refs/heads/master'
@@ -90,9 +90,8 @@ jobs:
          run: |
               # start-process PowerShell -verb runas 
               iisreset /stop
-             
               iisreset /start
-  Deploy to PreProd:
+  DeploytoPreProd:
       name: PreProd
       needs: Build
       if: github.event_name == 'refs/heads/PreProd'
@@ -137,10 +136,9 @@ jobs:
               iisreset /stop
              
               iisreset /start
-
   DeployProd:
       name: Prod
-      needs: PreProd
+      needs: DeploytoPreProd
       if: github.event_name == 'refs/heads/main'
       runs-on: self-hosted
       env:
