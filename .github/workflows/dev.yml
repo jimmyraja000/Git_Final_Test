@@ -68,7 +68,7 @@ jobs:
        - name: copying
          run: |
               Set-ExecutionPolicy RemoteSigned
-              & C:\actions-runner5\_work\Git_Final_Test\Git_Final_Test\Git_Final_Test\Psscripts\DevTest.ps1
+              & C:\actions-runner5\_work\Git_Final_Test\Git_Final_Test\Git_Final_Test\Psscripts\DevTestScript.ps1
         
               cd C:\inetpub\wwwroot\
  
