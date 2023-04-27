@@ -26,7 +26,7 @@ jobs:
     - name: publish
       run: |
            msbuild Git_Final_Test/Git_Final_Test.sln /t:Publish /p:Configuration=Release /p:Platform="Any CPU" /p:PublishDir="./artifacts"
- DeploytoPreProd:
+DeploytoPreProd:
       name: PreProd
       needs: Build
       if: github.event_name == 'refs/heads/PreProd'
