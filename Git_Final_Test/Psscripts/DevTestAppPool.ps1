@@ -11,6 +11,7 @@ else
 {
 "AppPool is not present"
 "Creating new AppPool"
+Import-Module WebAdministration
 New-WebAppPool "$DEV_APP_POOL_NAME" -Force
 return $false;
 }

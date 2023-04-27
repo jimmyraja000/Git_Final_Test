@@ -154,6 +154,7 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Psscripts\DevTestScript.ps1" />
     <Content Include="Psscripts\DevTestAppPool.ps1" />
+    <Content Include="Psscripts\DevTestWebsite.ps1" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
