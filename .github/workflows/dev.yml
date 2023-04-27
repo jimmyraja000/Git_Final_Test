@@ -66,12 +66,12 @@ jobs:
          # name: myapp
           #path: artifacts/
        - name: copying
-         run:  Copy-Item C:\actions-runner4\_work\Git_Final_Test\Git_Final_Test\* C:\inetpub\wwwroot\ -Recurse -Force
+         run:  Copy-Item C:\actions-runner5\_work\Git_Final_Test\Git_Final_Test\* C:\inetpub\wwwroot\ -Recurse -Force
 
        - name: create new apppool
          run: |
              Import-Module WebAdministration
-             New-WebAppPool -Name $env:DEV_APP_POOL_NAME
+             New-WebAppPool -Name ${{env.DEV_APP_POOL_NAME}}
        - name: create website
          run: |
              Import-Module WebAdministration
