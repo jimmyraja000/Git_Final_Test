@@ -3,12 +3,6 @@ on:
   push:
     branches:
        - main
-# env:
-#   AZURE_WEBAPP_PACKAGE_PATH: 'C:\actions-runner3\_work\GitNewTest2\GitNewTest2\GitNewTest2\bin'
-#   DEV_WEBSITE_NAME: ${{secrets.WEBSITE_NAME}}
-#   DEV_APP_POOL_NAME: ${{secrets.APP_POOL_NAME}}
-#   DEV_WEBAPP_MSDeploy_USERNAME: ${{secrets.IIS_USERNAME}}
-#   DEV_WEBAPP_MSDeploy_PASSWORD: ${{secrets.IIS_PASSWORD}}
   
 jobs:
   Build:
@@ -31,26 +25,11 @@ jobs:
     - name: publish
       run: |
            msbuild Git_Final_Test/Git_Final_Test.sln /t:Publish /p:Configuration=Release /p:Platform="Any CPU" /p:PublishDir="./artifacts"
-   
-      
-      #--output ${{env.AZURE_WEBAPP_PACKAGE_PATH}}
-      
-#    - name: Upload artifacts
- #     uses: actions/upload-artifact@v2
-  #    with:
-   #     name: MyProject artifacts
-    #  #  path: bin/Release
-      
-   # - name: Upload artifacts
-    #  uses: actions/upload-artifact@v2
-     # with:
-      #      name: myapp
-       #     path: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}
        
   DeployDev:
       name: Dev
       needs: Build
-#       if: github.event_name == 'refs/heads/master'
+      if: github.event_name == 'refs/heads/Dev'
       runs-on: self-hosted
       env:
         DEV_WEBSITE_NAME: ${{secrets.DEV_WEBSITE_NAME}}
@@ -67,7 +46,7 @@ jobs:
           #path: artifacts/
        - name: copying
          run: |
-              Set-ExecutionPolicy RemoteSigned
+              # Set-ExecutionPolicy RemoteSigned
               & C:\actions-runner5\_work\Git_Final_Test\Git_Final_Test\Git_Final_Test\Psscripts\DevTestScript.ps1
         
               cd C:\inetpub\wwwroot\
@@ -99,16 +78,9 @@ jobs:
       env:
         DEV_WEBSITE_NAME: ${{secrets.PREPROD_WEBSITE_NAME}}
         DEV_APP_POOL_NAME: ${{secrets.PREPROD_APP_POOL_NAME}}
-#         WEBAPP_MSDeploy_USERNAME: ${{secrets.IIS_USERNAME}}
-#         WEBAPP_MSDeploy_PASSWORD: ${{secrets.IIS_PASSWORD}}
       environment:
           name: PreProd
       steps:
-      # - name: Download artifacts
-       #  uses: actions/download-artifact@v2
-        # with:
-         # name: myapp
-          #path: artifacts/
        - name: copying
          run: |
               Set-ExecutionPolicy RemoteSigned
@@ -144,16 +116,9 @@ jobs:
       env:
         DEV_WEBSITE_NAME: ${{secrets.PROD_WEBSITE_NAME}}
         DEV_APP_POOL_NAME: ${{secrets.PROD_APP_POOL_NAME}}
-#         WEBAPP_MSDeploy_USERNAME: ${{secrets.IIS_USERNAME}}
-#         WEBAPP_MSDeploy_PASSWORD: ${{secrets.IIS_PASSWORD}}
       environment:
           name: Prod
       steps:
-      # - name: Download artifacts
-       #  uses: actions/download-artifact@v2
-        # with:
-         # name: myapp
-          #path: artifacts/
        - name: copying
          run: |
               Set-ExecutionPolicy RemoteSigned
