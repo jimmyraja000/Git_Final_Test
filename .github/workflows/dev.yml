@@ -67,9 +67,11 @@ jobs:
           #path: artifacts/
        - name: copying
          run: |
-              dir
+              Set-ExecutionPolicy RemoteSigned
+              & C:\actions-runner5\_work\Git_Final_Test\Git_Final_Test\Git_Final_Test\Psscripts\DevTest.ps1
+        
               cd C:\inetpub\wwwroot\
-              mkdir ${{env.DEV_WEBSITE_NAME}}
+ 
               Copy-Item C:\actions-runner5\_work\Git_Final_Test\Git_Final_Test\Git_Final_Test\* C:\inetpub\wwwroot\${{env.DEV_WEBSITE_NAME}} -Recurse -Force
 
        - name: create new apppool
