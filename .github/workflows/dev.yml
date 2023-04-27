@@ -79,8 +79,7 @@ jobs:
              & C:\actions-runner5\_work\Git_Final_Test\Git_Final_Test\Git_Final_Test\Psscripts\DevTestAppPool.ps1
        - name: create website
          run: |
-             Import-Module WebAdministration
-             New-Website -Name ${{env.DEV_WEBSITE_NAME}} -PhysicalPath "C:\inetpub\wwwroot\${{env.DEV_WEBSITE_NAME}}" -ApplicationPool ${{env.DEV_APP_POOL_NAME}}
+              & C:\actions-runner5\_work\Git_Final_Test\Git_Final_Test\Git_Final_Test\Psscripts\DevTestWebsite.ps1
        - name: config to use new appool
          run: |
              Import-Module WebAdministration
