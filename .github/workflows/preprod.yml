@@ -1,7 +1,7 @@
 name: Build & Deploy Pipeline for PreProd
 on:
   push:
-    branches
+    branches:
        - PreProd
   
 jobs:
