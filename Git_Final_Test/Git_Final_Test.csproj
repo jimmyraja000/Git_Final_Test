@@ -237,6 +237,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="NewFolder1\" />
+    <Folder Include="Power\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
