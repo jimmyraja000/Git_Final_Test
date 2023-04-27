@@ -12,7 +12,7 @@ on:
   
 jobs:
   Build:
-    runs-on: self-hosted
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
       
@@ -48,7 +48,7 @@ jobs:
 #            path: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}
        
     - name: Download artifacts
-      uses: actions/download-artifacts@v2
+      uses: actions/download-artifact@v2
       with:
          name: MyProject artifacts
          path: C:\actions-runner5\_work
