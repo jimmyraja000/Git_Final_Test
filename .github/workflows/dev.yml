@@ -69,7 +69,7 @@ jobs:
          run: | 
               cd C:\inetpub\wwwroot\
               mkdir ${{env.DEV_WEBSITE_NAME}}
-              Copy-Item C:\actions-runner5\_work\Git_Final_Test\Git_Final_Test\Git_Final_Test\* C:\inetpub\wwwroot\ -Recurse -Force
+              Copy-Item C:\actions-runner5\_work\Git_Final_Test\Git_Final_Test\Git_Final_Test\* C:\inetpub\wwwroot\${{env.DEV_WEBSITE_NAME}} -Recurse -Force
 
        - name: create new apppool
          run: |
