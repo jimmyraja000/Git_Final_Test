@@ -26,17 +26,17 @@ jobs:
     - name: publish
       run: |
            msbuild Git_Final_Test/Git_Final_Test.sln /t:Publish /p:Configuration=Release /p:Platform="Any CPU" /p:PublishDir="./artifacts"
-DeploytoPreProd:
-      name: PreProd
-      needs: Build
-      if: github.event_name == 'refs/heads/PreProd'
-      runs-on: self-hosted
-      env:
+  DeploytoPreProd:
+     name: PreProd
+     needs: Build
+     if: github.event_name == 'refs/heads/PreProd'
+     runs-on: self-hosted
+     env:
         DEV_WEBSITE_NAME: ${{secrets.PREPROD_WEBSITE_NAME}}
         DEV_APP_POOL_NAME: ${{secrets.PREPROD_APP_POOL_NAME}}
-      environment:
+     environment:
           name: PreProd
-      steps:
+     steps:
        - name: copying
          run: |
               Set-ExecutionPolicy RemoteSigned
