@@ -29,7 +29,7 @@ jobs:
   DeploytoPreProd:
      name: PreProd
      needs: Build
-     if: github.event_name == 'refs/heads/PreProd'
+     # if: github.event_name == 'refs/heads/PreProd'
      runs-on: self-hosted
      env:
         DEV_WEBSITE_NAME: ${{secrets.PREPROD_WEBSITE_NAME}}
