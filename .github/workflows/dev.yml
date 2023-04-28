@@ -70,7 +70,7 @@ jobs:
          uses: actions/checkout@v2
        - name: copying
          run: |
-              Set-ExecutionPolicy RemoteSigned
+              Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
               & C:\actions-runner5\_work\Git_Final_Test\Git_Final_Test\Git_Final_Test\Psscripts\DevTestScript.ps1
         
               cd C:\inetpub\wwwroot\
