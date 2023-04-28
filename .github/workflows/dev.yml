@@ -66,6 +66,8 @@ jobs:
         # with:
          # name: myapp
           #path: artifacts/
+       - name: Checkout Code 
+         uses: actions/checkout@v2
        - name: copying
          run: |
               Set-ExecutionPolicy RemoteSigned
